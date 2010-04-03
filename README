@@ -2,10 +2,19 @@ NAME
   RT::Extension::QueueDeactivatedScrips
 
 DESCRIPTION
-  If you work a lot with ticket links, it is hard to keep an overview
-  of all tickets and related ticket status. Normally you have to open
-  each ticket to see the status/owner, with this RT-Extension you can
-  see all your tickets (from a search) with their related tickets
+  If you have a large amount of Queues and you don't like to manage
+  all scrips per queue by hand, this extension offers a way to
+  create global scrips and enable and disable them on a queue level.
+  This Extension is based on Dirk Pape's HideGlobalScrip AddOn and
+  pushed to RT 3.8.x.
+
+  We had to replace the Admin/Queues/Scrips.html file with a pathed
+  Version. If you have already made changes to the file, please
+  compare and patch again.
+
+  We also had to patch Admin/Elements/EditScrips. Inside RT 3.8.x
+  this file is completely different from older versions, so we
+  replaced the entire content. 
 
 INSTALLATION
   1. Run "perl Makefile.PL"
@@ -34,4 +43,7 @@ THANKS
   Dirk Pape (who wrote the original AddOn for RT 3.x Series)
   Dan O'Neill (who wrote the PG and Oracle Schemes)
 
-
+TODO
+  EditScrips inside RT 3.8.x works different like older versions,
+  we have replaced the file with an older version, this runs fine
+  so far, but i like to have all clean. Patches are welcome.

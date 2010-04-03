@@ -1,0 +1,22 @@
+
+sub acl {
+    my $dbh = shift;
+
+    my @acls;
+
+    my @tables = qw (
+QueueDeactivatedScrips_id_seq,
+QueueDeactivatedScrips
+    );
+
+    foreach my $table (@tables) {
+        push @acls,
+          "GRANT SELECT, INSERT, UPDATE, DELETE ON $table to "
+          . $RT::DatabaseUser . ";";
+
+    }
+    return (@acls);
+}
+1;
+
+

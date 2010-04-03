@@ -1,0 +1,2 @@
+DROP TABLE QueueDeactivatedScrips;
+DROP sequence QueueDeactivatedScrips_id_seq;

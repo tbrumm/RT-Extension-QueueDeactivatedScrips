@@ -1,0 +1,6 @@
+# mysql doesn't need new acls
+sub acl {
+	return ('select sysdate from DUAL;');
+}
+1;
+

@@ -1,0 +1,12 @@
+CREATE SEQUENCE QueueDeactivatedScrips_id_seq;
+
+CREATE TABLE QueueDeactivatedScrips (
+  id INTEGER DEFAULT nextval('QueueDeactivatedScrips_id_seq'),
+  QueueId INTEGER NOT NULL default 0,
+  ScripId INTEGER NOT NULL default 0,
+  Status varchar(15) NOT NULL default 'deactivated',
+  Description varchar(255) default NULL,
+  PRIMARY KEY  (id)
+);
+
+CREATE INDEX QueueScrip ON QueueDeactivatedScrips (QueueId,ScripId);

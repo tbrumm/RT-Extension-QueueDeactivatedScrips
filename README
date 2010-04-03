@@ -1,0 +1,37 @@
+NAME
+  RT::Extension::QueueDeactivatedScrips
+
+DESCRIPTION
+  If you work a lot with ticket links, it is hard to keep an overview
+  of all tickets and related ticket status. Normally you have to open
+  each ticket to see the status/owner, with this RT-Extension you can
+  see all your tickets (from a search) with their related tickets
+
+INSTALLATION
+  1. Run "perl Makefile.PL"
+
+  2. Run "make"
+
+  3. Run "make install" (you may need root permissions)
+  
+  4. Run "make initdb" for first time installation
+
+  5. Additionally, if you're running 3.8, you'll need to add
+     "RT::Extension::QueueDeactivatedScrips" to @Plugins in
+     etc/RT_SiteConfig.pm.  For example:
+     Set(@Plugins, qw(RT::Extension::QueueDeactivatedScrips));
+
+  6. Clear RT's mason cache and restart the web server to make sure the
+     extension is incorporated.
+   
+LICENSE
+  Under the same terms as perl itself.
+
+AUTHOR
+  Torsten Brumm <tbrumm@mac.com>
+
+THANKS
+  Dirk Pape (who wrote the original AddOn for RT 3.x Series)
+  Dan O'Neill (who wrote the PG and Oracle Schemes)
+
+

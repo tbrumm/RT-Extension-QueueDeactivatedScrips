@@ -1,0 +1,108 @@
+%# BEGIN LICENSE BLOCK
+%# 
+%# Copyright (c) 1996-2003 Jesse Vincent <jesse@bestpractical.com>
+%# 
+%# (Except where explictly superceded by other copyright notices)
+%# 
+%# This work is made available to you under the terms of Version 2 of
+%# the GNU General Public License. A copy of that license should have
+%# been provided with this software, but in any event can be snarfed
+%# from www.gnu.org.
+%# 
+%# This work is distributed in the hope that it will be useful, but
+%# WITHOUT ANY WARRANTY; without even the implied warranty of
+%# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+%# General Public License for more details.
+%# 
+%# Unless otherwise specified, all modifications, corrections or
+%# extensions to this work which alter its source code become the
+%# property of Best Practical Solutions, LLC when submitted for
+%# inclusion in the work.
+%# 
+%# 
+%# END LICENSE BLOCK
+<& /Elements/ListActions, actions => \@actions &>
+<form action="Scrips.html" method="post">
+<input type="hidden" name="id" value="<%$id%>">
+<P><&|/l&>Scrips which apply to all queues</&>:</P>
+% if ($Scrips->Count == 0 ) {
+<P><i><&|/l&>(No scrips)</&></i></P>
+% } else {
+<TABLE>
+%     if ($QueueId) {
+<TR>
+<TD align="center"><i><&|/l&>inherit</&></i></TD>
+<TD align="center"><i><&|/l&>on</&></i></TD>
+<TD align="center"><i><&|/l&>off</&></i></TD>
+<TD><i><&|/l&>(select status for queue: inherited, activated, deactivated)</&></i></TD>
+</TR>
+%     }
+%   while (my $scrip = $Scrips->Next ) {
+<TR>
+%     if ($QueueId) {
+%       my $status=$info->QueueScripLocalStatus( $QueueId, $scrip->Id);
+<TD>
+<input type="radio" name="Status-<%$scrip->Id%>" value="inherited" <% $status eq 'inherited' && "checked"%>> <i>(<%loc( $info->GlobalScripStatus( $scrip->Id))%>)</i>
+</TD>
+<TD align="center">
+<input type="radio" name="Status-<%$scrip->Id%>" value="activated" <% $status eq 'activated' && "checked"%>>
+</TD>
+<TD align="center">
+<input type="radio" name="Status-<%$scrip->Id%>" value="deactivated" <% $status eq 'deactivated' && "checked"%>>
+</TD>
+%     }
+<TD>
+<% $scrip->Description || "<i>(".loc('no value').")</i>" |n %><br>
+<small><&|/l, loc($scrip->ConditionObj->Name), loc($scrip->ActionObj->Name), loc($scrip->TemplateObj->Name) &>[_1] [_2] with template [_3]</&></small>
+</TD>
+<TR>
+%   }
+</TABLE>
+% }
+<& /Elements/Submit, 
+    Caption => loc("Update scrips status for this queue"), 
+    Label => loc("Update status") &>
+</form>
+<%init>
+my (@actions);
+my $Scrips = RT::Scrips->new($session{'CurrentUser'});
+$Scrips->LimitToGlobal();
+my $QueueObj = RT::Queue->new($session{'CurrentUser'});
+if ($id)  {
+        $QueueObj->Load($id);                        
+}
+my $QueueId = $QueueObj->id;
+
+require RT::QueueDeactivatedScrip;
+my $info = new RT::QueueDeactivatedScrip($session{'CurrentUser'});
+while (my $scrip = $Scrips->Next ) {
+  my $ScripId = $scrip->Id;
+  my $oldstatus = $info->QueueScripLocalStatus( $QueueId, $ScripId );
+  my $status=$ARGS{"Status-$ScripId"};
+
+  if ($status && $status ne $oldstatus) {
+    my ($retval, $msg) = (1,undef);
+    if ($status eq 'inherited') {
+      ($retval, $msg) = $info->Delete();
+    } else {
+      if (! $info->Id) {
+        ($retval, $msg) = $info->Create( QueueId => $QueueId,
+                                         ScripId => $ScripId,
+                                         Description => 'by admininterface' );
+      }
+      if ($retval) {
+        ($retval, $msg) = $info->SetStatus( $status );
+      }
+    }
+    if ($retval) {
+      push @actions, loc("Scrip status set to [_1]", loc($status));
+    } else {
+      push @actions, $msg;
+    }
+  }
+}
+
+</%INIT>
+<%ARGS>
+$id => undef
+</%ARGS>

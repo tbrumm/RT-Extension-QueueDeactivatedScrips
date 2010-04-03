@@ -1,0 +1,9 @@
+CREATE TABLE QueueDeactivatedScrips (
+id INTEGER NOT NULL auto_increment,
+QueueId INTEGER NOT NULL default '0',
+ScripId INTEGER NOT NULL default '0',
+Status varchar(15) NOT NULL default 'deactivated',
+Description varchar(255) default NULL,
+PRIMARY KEY  (id),
+KEY QueueScrip (QueueId,ScripId)
+) TYPE=InnoDB;

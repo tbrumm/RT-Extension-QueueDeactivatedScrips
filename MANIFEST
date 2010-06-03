@@ -24,7 +24,7 @@ lib/RT/QueueDeactivatedScrip_Overlay.pm
 lib/RT/QueueDeactivatedScrip.pm
 lib/RT/QueueDeactivatedScrips.pm
 lib/RT/Scrip_Local.pm
-Makefile.pl
+Makefile.PL
 MANIFEST
 META.yml
 README

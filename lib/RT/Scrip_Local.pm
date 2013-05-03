@@ -1,5 +1,6 @@
+package RT::Scrip;
 use strict;
-no warnings qw(redefine);
+no warnings qw/redefine/;
 
 # {{{ sub IsApplicable
 

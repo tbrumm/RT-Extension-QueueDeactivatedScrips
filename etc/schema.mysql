@@ -6,4 +6,4 @@ Status varchar(15) NOT NULL default 'deactivated',
 Description varchar(255) default NULL,
 PRIMARY KEY  (id),
 KEY QueueScrip (QueueId,ScripId)
-) TYPE=InnoDB;
+);

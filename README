@@ -1,6 +1,14 @@
 NAME
   RT::Extension::QueueDeactivatedScrips
 
+IMPORTANT
+  No further development from my side for this anymore. A Version for 
+  RT 4.0 is available from this repository:
+    https://github.com/dmsimard/RT-Extension-QueueDeactivatedScrips
+  
+  RT 4.2 comes with it's own version, i prefer to spent my time on a
+  conversation tool.
+
 DESCRIPTION
   If you have a large amount of Queues and you don't like to manage
   all scrips per queue by hand, this extension offers a way to
